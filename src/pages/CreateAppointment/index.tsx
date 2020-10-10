@@ -52,14 +52,13 @@ interface AvailabilityItem {
 const CreateAppointment: React.FC = () => {
   const { user } = useAuth();
   const route = useRoute();
+  const routeParams = route.params as RouteParams;
   const { goBack, navigate } = useNavigation();
 
-  const routeParams = route.params as RouteParams;
-
   const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedHour, setSelectedHour] = useState(0);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [providers, setProviders] = useState<Provider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState(
     routeParams.providerId,
@@ -168,7 +167,13 @@ const CreateAppointment: React.FC = () => {
 
         <HeaderTitle>Cabeleireiros</HeaderTitle>
 
-        <UserAvatar source={{ uri: user.avatar_url }} />
+        <UserAvatar
+          source={{
+            uri:
+              user.avatar_url ||
+              'https://api.adorable.io/avatars/56/abott@adorable.png',
+          }}
+        />
       </Header>
 
       <Content>
@@ -183,7 +188,13 @@ const CreateAppointment: React.FC = () => {
                 onPress={() => handleSelectProvider(provider.id)}
                 selected={provider.id === selectedProvider}
               >
-                <ProviderAvatar source={{ uri: provider.avatar_url }} />
+                <ProviderAvatar
+                  source={{
+                    uri:
+                      provider.avatar_url ||
+                      'https://api.adorable.io/avatars/32/abott@adorable.png',
+                  }}
+                />
                 <ProviderName selected={provider.id === selectedProvider}>
                   {provider.name}
                 </ProviderName>
